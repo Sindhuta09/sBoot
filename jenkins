@@ -1,0 +1,17 @@
+pipeline {
+	agent any
+	
+	stages {
+		stage('Build') {
+			steps {
+				sh 'mvn clean install'
+			}
+		}
+		stage('Test') {
+			steps {
+				junit 'target/surefire-reports/*.xml'
+                    		archiveArtifacts artifacts: 'target/*.war', followSymlinks: false
+			}
+		}
+	}
+}
