@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: null
+  name: dev
+spec: {}
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: sboot
+  name: sboot
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sboot
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: sboot
+    spec:
+      containers:
+      - image: sindhuta/sboot-repo:latest
+        name: sboot-repo
+        ports:
+        - containerPort: 8091
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: sboot
+  name: sboot
+spec:
+  ports:
+  - name: 8090-8090
+    port: 8090
+    protocol: TCP
+    targetPort: 8090
+  selector:
+    app: sboot
+  type:  LoadBalancer
+status:
+  loadBalancer: {}
