@@ -1,11 +1,3 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  creationTimestamp: null
-  name: dev
-spec: {}
-status: {}
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,7 +5,6 @@ metadata:
   labels:
     app: sboot
   name: sboot
-  namespace: dev
 spec:
   replicas: 1
   selector:
@@ -28,9 +19,7 @@ spec:
     spec:
       containers:
       - image: sindhuta/sboot-repo:latest
-        name: sboot-repo
-        ports:
-        - containerPort: 8091
+        name: sbootproject
         resources: {}
 status: {}
 ---
@@ -43,12 +32,16 @@ metadata:
   name: sboot
 spec:
   ports:
+  - name: 8091-8091
+    port: 8091
+    protocol: TCP
+    targetPort: 8091
   - name: 8090-8090
     port: 8090
     protocol: TCP
     targetPort: 8090
   selector:
     app: sboot
-  type:  LoadBalancer
+  type: LoadBalancer
 status:
   loadBalancer: {}
